@@ -4,12 +4,14 @@ from __future__ import print_function
 from random import randint
 import sys
 
+# Adds numbers together after tilting
 def getnums(f,r=[0,1,2,3],c=[0,1,2,3]):
     ints=[]
     for y in r:
         for x in c:ints.append(f[y][x])
     return ints
 
+# Adds tilted tiles together
 def sert(f,liste,r=[0,1,2,3],c=[0,1,2,3],reverse=False):
     pop_from=0
     if reverse==True:pop_from=-1
@@ -18,6 +20,7 @@ def sert(f,liste,r=[0,1,2,3],c=[0,1,2,3],reverse=False):
             if y in r and x in c:f[y][x]=liste.pop(pop_from)
     return f
 
+# Add 0's
 def emp(f):
     poses=[]
     for y in range(4):
@@ -25,6 +28,7 @@ def emp(f):
             if f[y][x]==0:poses.append([y,x])
     return poses
 
+# Adds a random number on the field
 def add_random(f):
     empty=emp(f)
     y,x=empty[randint(0,len(empty)-1)]
@@ -32,6 +36,7 @@ def add_random(f):
     if randint(0,9)>8:f[y][x]=4
     return f
 
+# Restart case
 def get_new_field():
     f=[]
     for i in range(4):
@@ -39,6 +44,7 @@ def get_new_field():
         for j in range(4):f[i].append(0)
     return f
 
+# Shifts the field to add numbers
 def tilt_field(f, cmd):
     f2=get_new_field()
     for n in range(4):
@@ -61,6 +67,7 @@ def tilt_field(f, cmd):
         if cmd=="d": liste=sert(f2,liste, r=[n], reverse = True)
     return f2
 
+# Winning case check
 def max_tile(f):
     m = 0
     for row in f:
@@ -68,6 +75,7 @@ def max_tile(f):
             if ele > m:
                 m = ele
 
+# Prints to Screen
 def pprint(f):
     for row in f:
         for ele in row:
@@ -79,6 +87,7 @@ def pprint(f):
                 print(nexttext+str(ele),end="|")
         print()
 
+# Main
 f=add_random(add_random(get_new_field()))
 while not (f==tilt_field(f,"w")==tilt_field(f,"a")
 ==tilt_field(f,"s")==tilt_field(f,"d")):
